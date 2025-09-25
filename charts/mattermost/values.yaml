@@ -1,0 +1,138 @@
+# Default values for example.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+mattermost:
+  size: 100users
+
+  # Version defaults to chart`s appVersion`
+  # version: v10.12
+
+  replicas: 1
+
+  fileStore:
+    external:
+      # Set to the bucket name of your external MinIO or S3.
+      bucket: example
+
+      # Optionally enter the name of already existing secret.
+      # Secret should have two values: "accesskey" and "secretkey".
+      secret: example
+
+      # Set to use an external MinIO deployment or S3.
+      url: s3.example.com
+
+      # Optionally use service account with IAM role to access AWS services, like S3.
+      userServiceAccount: false
+
+  database:
+    external:
+      # Secret contains data necessary to connect to the external database.
+      # The Kubernetes Secret should contain:
+      #   - Key: DB_CONNECTION_STRING | Value: Full database connection string.
+      # It can also contain optional fields, such as:
+      #   - Key: MM_SQLSETTINGS_DATASOURCEREPLICAS | Value: Connection string to
+      # read replicas of the database.
+      #   - Key: DB_CONNECTION_CHECK_URL | Value: The URL used for checking that the
+      # database is accessible.
+      #     Omitting this value in the secret will cause Operator to skip adding
+      # init container for database check.
+      secret: mattermost-db
+
+  ingress:
+    annotations: {}
+    enabled: true
+    ingressClass: nginx
+    host: mattermost.example.com
+    hosts:
+      - mattermost.example.com
+    tlsSecret: mattermost-tls
+
+  service:
+    annotations: {}
+
+  # image:
+  #   repository:
+  #   tag: ""
+
+  imagePullSecrets: []
+  #  - name: pull-secret-registry
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      memory: 512Mi
+
+database:
+  enabled: false
+
+  description: "HA Postgres"
+
+  image:
+    repository: ghcr.io/cloudnative-pg/postgresql
+    tag: 15.0
+
+  replicaCount: 3
+
+  storage:
+    size: 10Gi
+    storageClass: ""
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      memory: 512Mi
+
+  enablePDB: true
+  primaryUpdateStrategy: unsupervised
+  enableSuperuserAccess: false
+
+  superuserSecret:
+    {}
+
+    # name: postgres-superuser
+
+  bootstrap:
+    initdb:
+      database: mattermost
+      owner: mattermost
+      # secret:
+      #   name: mattermost-user
+      dataChecksums: true
+
+  monitoring:
+    enablePodMonitor: true
+
+  backup:
+    existingSecret:
+      s3:
+        name: cnpg-s3-creds
+        credentialsKey: credentials
+        configKey: config
+        profileName: cnpg
+    barmanObjectStore:
+      destinationPath: "s3://bucket/path/to"
+      wal:
+        compression: gzip
+        maxParallel: 4
+    retentionPolicy: "7d"
+
+  postgresql:
+    parameters:
+      shared_buffers: "64MB"
+      max_wal_size: "256MB"
+      wal_compression: "on"
+      log_min_duration_statement: "500"
+    pg_hba:
+      - host all all 0.0.0.0/0 md5
+      - host all all ::0/0 md5
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

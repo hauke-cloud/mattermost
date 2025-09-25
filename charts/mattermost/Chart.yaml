@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mattermost
+description: A Helm chart providing a mattermost instance with cloudnativ-pg postgres persistence
+type: application
+version: 0.0.1
+appVersion: "10.12"

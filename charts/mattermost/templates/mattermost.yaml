@@ -1,0 +1,49 @@
+apiVersion: installation.mattermost.com/v1beta1
+kind: Mattermost
+metadata:
+  name: {{ include "mattermost.name" . }}
+  labels:
+    {{- include "mattermost.labels" . | nindent 4 }}
+spec:
+  size: {{ .Values.mattermost.size | default "100users" }}
+  version: {{ .Values.mattermost.version | default (printf "v%s" .Chart.AppVersion) }}
+  replicas: {{ .Values.mattermost.replicas | default 1 }}
+
+  {{- with .Values.mattermost.database }}
+  database:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+
+  {{- with .Values.mattermost.fileStore }}
+  fileStore:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+
+  {{- with .Values.mattermost.elasticSearch }}
+  elasticSearch:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+
+  {{- with .Values.mattermost.image }}
+  image: {{ .repository }}:{{ .tag | default .Chart.AppVersion }}
+  {{- end }}
+
+  {{- with .Values.mattermost.resources }}
+  resources:
+  {{- toYaml . | nindent 4}}
+  {{- end }}
+
+  {{- with .Values.mattermost.ingress }}
+  ingress:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+
+  {{- with .Values.mattermost.ingress.annotations }}
+  ingressAnnotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+
+  {{- with .Values.mattermost.service.annotations }}
+  serviceAnnotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
