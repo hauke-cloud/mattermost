@@ -51,9 +51,7 @@ mattermost:
   service:
     annotations: {}
 
-  # image:
-  #   repository:
-  #   tag: ""
+  image: mattermost/mattermost-team-edition
 
   imagePullSecrets: []
   #  - name: pull-secret-registry

@@ -25,7 +25,8 @@ spec:
   {{- end }}
 
   {{- with .Values.mattermost.image }}
-  image: {{ .repository }}:{{ .tag | default .Chart.AppVersion }}
+  image:
+  {{- toYaml . | nindent 4 }}
   {{- end }}
 
   {{- with .Values.mattermost.resources }}
