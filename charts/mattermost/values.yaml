@@ -6,7 +6,7 @@ mattermost:
   size: 100users
 
   # Version defaults to chart`s appVersion`
-  # version: v10.12
+  # version: 10.11
 
   replicas: 1
 

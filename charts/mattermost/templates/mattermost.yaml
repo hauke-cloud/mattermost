@@ -6,7 +6,7 @@ metadata:
     {{- include "mattermost.labels" . | nindent 4 }}
 spec:
   size: {{ .Values.mattermost.size | default "100users" }}
-  version: {{ .Values.mattermost.version | default (printf "v%s" .Chart.AppVersion) }}
+  version: {{ .Values.mattermost.version | default (printf "%s" .Chart.AppVersion) }}
   replicas: {{ .Values.mattermost.replicas | default 1 }}
 
   {{- with .Values.mattermost.database }}
