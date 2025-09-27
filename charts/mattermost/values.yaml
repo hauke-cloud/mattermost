@@ -45,7 +45,7 @@ mattermost:
     ingressClass: nginx
     host: mattermost.example.com
     hosts:
-      - mattermost.example.com
+      - hostName: mattermost.example.com
     tlsSecret: mattermost-tls
 
   service:
