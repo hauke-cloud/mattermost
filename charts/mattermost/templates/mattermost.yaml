@@ -53,3 +53,13 @@ spec:
   mattermostEnv:
   {{- toYaml . | nindent 4 }}
   {{- end }}
+
+  {{- with .Values.mattermost.volumes }}
+  volumes:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+
+  {{- with .Values.mattermost.volumeMounts }}
+  volumeMounts:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}

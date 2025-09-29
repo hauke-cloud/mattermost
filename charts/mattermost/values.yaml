@@ -58,6 +58,10 @@ mattermost:
 
   mattermostEnv: []
 
+  volumes: []
+
+  volumeMounts: []
+
   resources:
     requests:
       cpu: 500m
