@@ -56,6 +56,8 @@ mattermost:
   imagePullSecrets: []
   #  - name: pull-secret-registry
 
+  mattermostEnv: []
+
   resources:
     requests:
       cpu: 500m
