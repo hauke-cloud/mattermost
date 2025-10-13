@@ -9,6 +9,6 @@ spec:
   schedule: "{{ .schedule }}"
   backupOwnerReference: {{ .backupOwnerReference | default "self" }}
   cluster:
-    name: {{ include "mattermost.name" $ }}
+    name: {{ include "mattermost.name" $ }}-db
 {{- end }}
 {{- end }}
