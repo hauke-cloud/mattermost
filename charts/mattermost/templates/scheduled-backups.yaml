@@ -4,11 +4,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: {{ include "keycloak.name" $ }}-{{ .name }}
+  name: {{ include "mattermost.name" $ }}-{{ .name }}
 spec:
   schedule: "{{ .schedule }}"
   backupOwnerReference: {{ .backupOwnerReference | default "self" }}
   cluster:
-    name: {{ include "keycloak.name" $ }}
+    name: {{ include "mattermost.name" $ }}
 {{- end }}
 {{- end }}
